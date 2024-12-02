@@ -726,7 +726,7 @@ static int __wifi_args_to_params(const struct shell *sh, size_t argc, char *argv
 			}
 			break;
 		case 'a':
-			params->anon_id = optarg;
+			params->anon_id = state->optarg;
 			params->aid_length = strlen(params->anon_id);
 			if (params->aid_length > WIFI_ENT_IDENTITY_MAX_LEN) {
 				PR_WARNING("anon_id too long (max %d characters)\n",
@@ -741,7 +741,7 @@ static int __wifi_args_to_params(const struct shell *sh, size_t argc, char *argv
 			}
 
 			if (key_passwd_cnt == 0) {
-				params->key_passwd = optarg;
+				params->key_passwd = state->optarg;
 				params->key_passwd_length = strlen(params->key_passwd);
 				if (params->key_passwd_length > WIFI_ENT_PSWD_MAX_LEN) {
 					PR_WARNING("key_passwd too long (max %d characters)\n",
@@ -749,7 +749,7 @@ static int __wifi_args_to_params(const struct shell *sh, size_t argc, char *argv
 					return -EINVAL;
 				}
 			} else if (key_passwd_cnt == 1) {
-				params->key2_passwd = optarg;
+				params->key2_passwd = state->optarg;
 				params->key2_passwd_length = strlen(params->key2_passwd);
 				if (params->key2_passwd_length > WIFI_ENT_PSWD_MAX_LEN) {
 					PR_WARNING("key2_passwd too long (max %d characters)\n",
@@ -760,10 +760,10 @@ static int __wifi_args_to_params(const struct shell *sh, size_t argc, char *argv
 			key_passwd_cnt++;
 			break;
 		case 'S':
-			params->suiteb_type = atoi(optarg);
+			params->suiteb_type = atoi(state->optarg);
 			break;
 		case 'V':
-			params->eap_ver = atoi(optarg);
+			params->eap_ver = atoi(state->optarg);
 			if (params->eap_ver != 0U && params->eap_ver != 1U) {
 				PR_WARNING("eap_ver error %d\n", params->eap_ver);
 				return -EINVAL;
@@ -776,10 +776,10 @@ static int __wifi_args_to_params(const struct shell *sh, size_t argc, char *argv
 				return -EINVAL;
 			}
 
-			params->eap_identity = optarg;
+			params->eap_identity = state->optarg;
 			params->eap_id_length = strlen(params->eap_identity);
 
-			params->identities[params->nusers] = optarg;
+			params->identities[params->nusers] = state->optarg;
 			params->nusers++;
 			if (params->eap_id_length > WIFI_ENT_IDENTITY_MAX_LEN) {
 				PR_WARNING("eap identity too long (max %d characters)\n",
@@ -794,10 +794,10 @@ static int __wifi_args_to_params(const struct shell *sh, size_t argc, char *argv
 				return -EINVAL;
 			}
 
-			params->eap_password = optarg;
+			params->eap_password = state->optarg;
 			params->eap_passwd_length = strlen(params->eap_password);
 
-			params->passwords[params->passwds] = optarg;
+			params->passwords[params->passwds] = state->optarg;
 			params->passwds++;
 			if (params->eap_passwd_length > WIFI_ENT_PSWD_MAX_LEN) {
 				PR_WARNING("eap password length too long (max %d characters)\n",
@@ -1113,7 +1113,9 @@ static int cmd_wifi_status(const struct shell *sh, size_t argc, char *argv[])
 		PR("DTIM: %d\n", status.dtim_period);
 		PR("TWT: %s\n",
 		   status.twt_capable ? "Supported" : "Not supported");
-		PR("Current PHY rate : %d\n", status.current_phy_rate);
+		PR("Current PHY TX rate (Mbps) : %d.%03d\n",
+		   status.current_phy_tx_rate / 1000,
+		   status.current_phy_tx_rate % 1000);
 	}
 
 	return 0;
@@ -3433,7 +3435,8 @@ SHELL_SUBCMD_ADD((wifi), reg_domain, &wifi_commands,
 		 "Set or Get Wi-Fi regulatory domain\n"
 		 "[ISO/IEC 3166-1 alpha2]: Regulatory domain\n"
 		 "[-f]: Force to use this regulatory hint over any other regulatory hints\n"
-		 "Note: This may cause regulatory compliance issues, use it at your own risk.\n",
+		 "Note1: The behavior of this command is dependent on the Wi-Fi driver/chipset implementation\n"
+		 "Note2: This may cause regulatory compliance issues, use it at your own risk.\n",
 		 cmd_wifi_reg_domain,
 		 1, 2);
 

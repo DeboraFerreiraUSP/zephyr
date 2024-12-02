@@ -405,20 +405,6 @@ void z_move_thread_to_end_of_prio_q(struct k_thread *thread)
 	}
 }
 
-void z_sched_start(struct k_thread *thread)
-{
-	k_spinlock_key_t key = k_spin_lock(&_sched_spinlock);
-
-	if (z_has_thread_started(thread)) {
-		k_spin_unlock(&_sched_spinlock, key);
-		return;
-	}
-
-	z_mark_thread_as_started(thread);
-	ready_thread(thread);
-	z_reschedule(&_sched_spinlock, key);
-}
-
 /* Spins in ISR context, waiting for a thread known to be running on
  * another CPU to catch the IPI we sent and halt.  Note that we check
  * for ourselves being asynchronously halted first to prevent simple
@@ -498,6 +484,19 @@ static void z_thread_halt(struct k_thread *thread, k_spinlock_key_t key,
 void z_impl_k_thread_suspend(k_tid_t thread)
 {
 	SYS_PORT_TRACING_OBJ_FUNC_ENTER(k_thread, suspend, thread);
+
+	/* Special case "suspend the current thread" as it doesn't
+	 * need the async complexity below.
+	 */
+	if (thread == arch_current_thread() && !arch_is_in_isr() && !IS_ENABLED(CONFIG_SMP)) {
+		k_spinlock_key_t key = k_spin_lock(&_sched_spinlock);
+
+		z_mark_thread_as_suspended(thread);
+		dequeue_thread(thread);
+		update_cache(1);
+		z_swap(&_sched_spinlock, key);
+		return;
+	}
 
 	(void)z_abort_thread_timeout(thread);
 
@@ -632,10 +631,7 @@ void z_sched_wake_thread(struct k_thread *thread, bool is_timeout)
 			if (thread->base.pended_on != NULL) {
 				unpend_thread_no_timeout(thread);
 			}
-			z_mark_thread_as_started(thread);
-			if (is_timeout) {
-				z_mark_thread_as_not_suspended(thread);
-			}
+			z_mark_thread_as_not_suspended(thread);
 			ready_thread(thread);
 		}
 	}

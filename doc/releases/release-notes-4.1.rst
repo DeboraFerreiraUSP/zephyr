@@ -33,6 +33,10 @@ Removed APIs in this release
 Deprecated in this release
 ==========================
 
+* Deprecated the :c:func:`bt_le_set_auto_conn` API function. Application developers can achieve
+  the same functionality in their application code by reconnecting to the peer when the
+  :c:member:`bt_conn_cb.disconnected` callback is invoked.
+
 Architectures
 *************
 
@@ -73,6 +77,9 @@ Bluetooth
 
 * Host
 
+  * :kconfig:option:`CONFIG_BT_BUF_ACL_RX_COUNT` has been deprecated and
+    :kconfig:option:`CONFIG_BT_BUF_ACL_RX_COUNT_EXTRA` has been added.
+
 * HCI Drivers
 
 Boards & SoC Support
@@ -85,6 +92,9 @@ Boards & SoC Support
 * Added support for these boards:
 
 * Made these board changes:
+
+  * All HWMv1 board name aliases which were added as deprecated in v3.7 are now removed
+    (:github:`82247`).
 
 * Added support for the following shields:
 
@@ -123,6 +133,12 @@ Drivers and Sensors
 
 * Flash
 
+* FPGA
+
+  * Extracted from :dtcompatible:`lattice,ice40-fpga` the compatible and driver for
+    :dtcompatible:`lattice,ice40-fpga-bitbang`. This replaces the original ``load_mode`` property from
+    the binding, which selected either the SPI or GPIO bitbang load mode.
+
 * GNSS
 
 * GPIO
@@ -140,6 +156,9 @@ Drivers and Sensors
 * LED
 
   * Added a new set of devicetree based LED APIs, see :c:struct:`led_dt_spec`.
+  * lp5569: added use of auto-increment functionality.
+  * lp5569: implemented ``write_channels`` api.
+  * lp5569: demonstrate ``led_write_channels`` in the sample.
 
 * LED Strip
 
@@ -158,6 +177,8 @@ Drivers and Sensors
 * MSPI
 
 * Pin control
+
+  * Added new driver for Silabs Series 2 (:dtcompatible:`silabs,dbus-pinctrl`).
 
 * PWM
 
@@ -180,6 +201,9 @@ Drivers and Sensors
 * USB
 
 * Video
+
+  * Changed :file:`include/zephyr/drivers/video-controls.h` to have control IDs (CIDs) matching
+    those present in the Linux kernel.
 
 * Watchdog
 
@@ -242,6 +266,8 @@ USB
 Devicetree
 **********
 
+* Added :c:macro:`DT_ANY_INST_HAS_BOOL_STATUS_OKAY`.
+
 Kconfig
 *******
 
@@ -263,6 +289,18 @@ Libraries / Subsystems
 * Power management
 
 * Crypto
+
+  * The Kconfig symbol :kconfig:option:`CONFIG_MBEDTLS_PSA_STATIC_KEY_SLOTS` was
+    added to allow Mbed TLS to use statically allocated buffers to store key material
+    in its PSA Crypto core instead of heap-allocated ones. This can help reduce
+    (or remove, if no other component makes use of it) heap memory requirements
+    from the final application.
+
+  * The Kconfig symbol :kconfig:option:`CONFIG_MBEDTLS_PSA_KEY_SLOT_COUNT` was
+    added to allow selecting the number of key slots available in the Mbed TLS
+    implementation of the PSA Crypto core. It defaults to 16. Since each
+    slot consumes RAM memory even if unused, this value can be tweaked in order
+    to minimize RAM usage.
 
 * CMSIS-NN
 

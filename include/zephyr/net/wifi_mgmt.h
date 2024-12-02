@@ -671,8 +671,8 @@ struct wifi_iface_status {
 	unsigned short beacon_interval;
 	/** is TWT capable? */
 	bool twt_capable;
-	/** The current 802.11 PHY data rate */
-	int current_phy_rate;
+	/** The current 802.11 PHY TX data rate (in Kbps) */
+	int current_phy_tx_rate;
 };
 
 /** @brief Wi-Fi power save parameters */
@@ -874,7 +874,9 @@ struct wifi_reg_chan_info {
 struct wifi_reg_domain {
 	/** Regulatory domain operation */
 	enum wifi_mgmt_op oper;
-	/** Ignore all other regulatory hints over this one */
+	/** Ignore all other regulatory hints over this one, the behavior is
+	 * implementation specific.
+	 */
 	bool force;
 	/** Country code: ISO/IEC 3166-1 alpha-2 */
 	uint8_t country_code[WIFI_COUNTRY_CODE_LEN];
