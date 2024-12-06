@@ -561,7 +561,7 @@
 		};
 
 		dspi0: spi@40340000 {
-			compatible = "nxp,kinetis-dspi";
+			compatible = "nxp,dspi";
 			reg = <0x40340000 0x10000>;
 			interrupts = <GIC_SPI 204 IRQ_TYPE_LEVEL IRQ_DEFAULT_PRIORITY>;
 			clocks = <&clock NXP_S32_MSCDSPI_CLK>;
@@ -1106,7 +1106,7 @@
 		};
 
 		lpi2c1: i2c@409d0000 {
-			compatible = "nxp,imx-lpi2c";
+			compatible = "nxp,lpi2c";
 			reg = <0x409d0000 0x10000>;
 			#address-cells = <1>;
 			#size-cells = <0>;
@@ -1117,7 +1117,7 @@
 		};
 
 		lpi2c2: i2c@421d0000 {
-			compatible = "nxp,imx-lpi2c";
+			compatible = "nxp,lpi2c";
 			reg = <0x421d0000 0x10000>;
 			#address-cells = <1>;
 			#size-cells = <0>;

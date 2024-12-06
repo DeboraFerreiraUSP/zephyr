@@ -395,6 +395,7 @@ lxa	Linux Automation GmbH
 m5stack	M5Stack
 macnica	Macnica Americas
 madmachine	Shenzhen FeiKaiTe Technology Co., Ltd.
+makerbase	Makerbase Co., Ltd.
 makerdiary	Shenzhen Zaowubang Technology Co., Ltd.
 mantix	Mantix Display Technology Co.,Ltd.
 mapleboard	Mapleboard.org
@@ -464,6 +465,7 @@ nintendo	Nintendo
 nlt	NLT Technologies, Ltd.
 nokia	Nokia
 nordic	Nordic Semiconductor
+norik	Norik Systems
 noritake	Noritake Co., Inc. Electronics Division
 novtech	NovTech, Inc.
 nuclei	Nuclei System Technology

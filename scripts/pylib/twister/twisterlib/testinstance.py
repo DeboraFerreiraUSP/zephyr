@@ -79,7 +79,7 @@ class TestInstance:
                 source_dir_rel,
                 testsuite.name
             )
-        self.run_id = self._get_run_id()
+        self.run_id = None
         self.domains = None
         # Instance need to use sysbuild if a given suite or a platform requires it
         self.sysbuild = testsuite.sysbuild or platform.sysbuild
@@ -89,6 +89,9 @@ class TestInstance:
         self.init_cases()
         self.filters = []
         self.filter_type = None
+
+    def setup_run_id(self):
+        self.run_id = self._get_run_id()
 
     def record(self, recording, fname_csv="recording.csv"):
         if recording:
@@ -261,9 +264,9 @@ class TestInstance:
         simulation = options.sim_name
 
         simulator = self.platform.simulator_by_name(simulation)
-        if os.name == 'nt':
+        if os.name == 'nt' and simulator:
             # running on simulators is currently supported only for QEMU on Windows
-            if (not simulator) or simulator.name not in ('na', 'qemu'):
+            if simulator.name not in ('na', 'qemu'):
                 return False
 
             # check presence of QEMU on Windows

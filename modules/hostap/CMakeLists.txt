@@ -133,6 +133,9 @@ zephyr_library_sources(
   ${WIFI_NM_WPA_SUPPLICANT_BASE}/ctrl_iface_zephyr.c
   ${WIFI_NM_WPA_SUPPLICANT_BASE}/wpa_cli_zephyr.c
 
+  ${HOSTAP_SRC_BASE}/rsn_supp/pmksa_cache.c
+  ${HOSTAP_SRC_BASE}/common/ptksa_cache.c
+
   # Zephyr specific files (glue code)
   src/supp_main.c
   src/supp_api.c
@@ -184,6 +187,7 @@ zephyr_library_sources(
   ${HOSTAP_SRC_BASE}/ap/hw_features.c
   ${HOSTAP_SRC_BASE}/ap/ieee802_11_auth.c
   ${HOSTAP_SRC_BASE}/ap/ieee802_11.c
+  ${HOSTAP_SRC_BASE}/ap/comeback_token.c
   ${HOSTAP_SRC_BASE}/ap/ieee802_11_ht.c
   ${HOSTAP_SRC_BASE}/ap/ieee802_11_shared.c
   ${HOSTAP_SRC_BASE}/ap/ieee802_11_vht.c
@@ -432,12 +436,15 @@ zephyr_library_compile_definitions_ifdef(CONFIG_EAP_GTC
 zephyr_library_sources_ifdef(CONFIG_EAP_MSCHAPV2
   ${HOSTAP_SRC_BASE}/eap_peer/eap_mschapv2.c
   ${HOSTAP_SRC_BASE}/eap_peer/mschapv2.c
-  ${HOSTAP_SRC_BASE}/eap_common/chap.c
 )
 
 zephyr_library_compile_definitions_ifdef(CONFIG_EAP_MSCHAPV2
   EAP_MSCHAPv2
 )
+
+if(CONFIG_EAP_TTLS OR CONFIG_EAP_MSCHAPV2)
+  zephyr_library_sources(${HOSTAP_SRC_BASE}/eap_common/chap.c)
+endif()
 
 zephyr_library_sources_ifdef(CONFIG_EAP_LEAP
   ${HOSTAP_SRC_BASE}/eap_peer/eap_leap.c
@@ -560,7 +567,6 @@ zephyr_library_sources_ifdef(CONFIG_WIFI_NM_WPA_SUPPLICANT_EAPOL
   ${HOSTAP_SRC_BASE}/eap_peer/eap.c
   ${HOSTAP_SRC_BASE}/eap_peer/eap_methods.c
   ${HOSTAP_SRC_BASE}/eap_common/eap_common.c
-  ${HOSTAP_SRC_BASE}/rsn_supp/pmksa_cache.c
 )
 
 zephyr_library_compile_definitions_ifdef(CONFIG_WIFI_NM_WPA_SUPPLICANT_EAPOL

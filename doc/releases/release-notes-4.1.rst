@@ -29,6 +29,12 @@ Removed APIs in this release
 
  * The deprecated Bluetooth HCI driver API has been removed. It has been replaced by a
    :c:group:`new API<bt_hci_api>` that follows the normal Zephyr driver model.
+ * The deprecated ``CAN_MAX_STD_ID`` (replaced by :c:macro:`CAN_STD_ID_MASK`) and ``CAN_MAX_EXT_ID``
+   (replaced by :c:macro:`CAN_EXT_ID_MASK`) CAN API macros have been removed.
+ * The deprecated ``can_get_min_bitrate()`` (replaced by :c:func:`can_get_bitrate_min`) and
+   ``can_get_max_bitrate()`` (replaced by :c:func:`can_get_bitrate_max`) CAN API functions have been
+   removed.
+ * The deprecated ``can_calc_prescaler()`` CAN API function has been removed.
 
 Deprecated in this release
 ==========================
@@ -95,11 +101,17 @@ Boards & SoC Support
 
   * All HWMv1 board name aliases which were added as deprecated in v3.7 are now removed
     (:github:`82247`).
+  * Enabled USB, RTC on NXP ``frdm_mcxn236``
 
 * Added support for the following shields:
 
 Build system and Infrastructure
 *******************************
+
+* Space-separated lists support has been removed from Twister configuration
+  files. This feature was deprecated a long time ago. Projects that do still use
+  them can use the :zephyr_file:`scripts/utils/twister_to_list.py` script to
+  automatically migrate Twister configuration files.
 
 Drivers and Sensors
 *******************
@@ -242,13 +254,22 @@ Networking
 
 * Network Interface:
 
-* OpenThread
+* OpenThread:
+
+  * Removed the implicit enabling of the :kconfig:option:`CONFIG_NVS` Kconfig option by the :kconfig:option:`CONFIG_NET_L2_OPENTHREAD` symbol.
 
 * PPP
 
 * Shell:
 
 * Sockets:
+
+  * The deprecated :kconfig:option:`CONFIG_NET_SOCKETS_POSIX_NAMES` option has been removed.
+    It was a legacy option and was used to allow user to call BSD socket API while not enabling POSIX API.
+    This removal means that in order to use POSIX API socket calls, one needs to enable the
+    :kconfig:option:`CONFIG_POSIX_API` option.
+    If the application does not want or is not able to enable that option, then the socket API
+    calls need to be prefixed by a ``zsock_`` string.
 
 * Syslog:
 

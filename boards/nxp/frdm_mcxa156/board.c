@@ -116,6 +116,40 @@ static int frdm_mcxa156_init(void)
 	CLOCK_AttachClk(kFRO12M_to_LPUART0);
 #endif
 
+#if DT_NODE_HAS_STATUS_OKAY(DT_NODELABEL(dac0))
+	SPC_EnableActiveModeAnalogModules(SPC0, kSPC_controlDac0);
+	CLOCK_SetClockDiv(kCLOCK_DivDAC0, 1u);
+	CLOCK_AttachClk(kFRO12M_to_DAC0);
+
+	CLOCK_EnableClock(kCLOCK_GateDAC0);
+#endif
+
+#if DT_NODE_HAS_STATUS_OKAY(DT_NODELABEL(lpadc0))
+	CLOCK_SetClockDiv(kCLOCK_DivADC0, 1u);
+	CLOCK_AttachClk(kFRO12M_to_ADC0);
+
+	CLOCK_EnableClock(kCLOCK_GateADC0);
+#endif
+
+#if DT_NODE_HAS_STATUS_OKAY(DT_NODELABEL(lptmr0))
+
+/*
+ * Clock Select Decides what input source the lptmr will clock from
+ *
+ * 0 <- Reserved
+ * 1 <- 16K FRO
+ * 2 <- Reserved
+ * 3 <- Combination of clocks configured in MRCC_LPTMR0_CLKSEL[MUX] field
+ */
+#if DT_PROP(DT_NODELABEL(lptmr0), clk_source) == 0x1
+	CLOCK_SetupFRO16KClocking(kCLKE_16K_SYSTEM | kCLKE_16K_COREMAIN);
+#elif DT_PROP(DT_NODELABEL(lptmr0), clk_source) == 0x3
+	CLOCK_SetClockDiv(kCLOCK_DivLPTMR0, 1u);
+	CLOCK_AttachClk(kFRO12M_to_LPTMR0);
+#endif /* DT_PROP(DT_NODELABEL(lptmr0), clk_source) */
+
+#endif
+
 	/* Set SystemCoreClock variable. */
 	SystemCoreClock = CLOCK_INIT_CORE_CLOCK;
 

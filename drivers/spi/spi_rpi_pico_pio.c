@@ -678,7 +678,7 @@ int spi_pico_pio_release(const struct device *dev, const struct spi_config *spi_
 	return 0;
 }
 
-static const struct spi_driver_api spi_pico_pio_api = {
+static DEVICE_API(spi, spi_pico_pio_api) = {
 	.transceive = spi_pico_pio_transceive,
 	.release = spi_pico_pio_release,
 };
@@ -759,7 +759,7 @@ int spi_pico_pio_init(const struct device *dev)
 		SPI_CONTEXT_INIT_LOCK(spi_pico_pio_data_##inst, spi_ctx),                          \
 		SPI_CONTEXT_INIT_SYNC(spi_pico_pio_data_##inst, spi_ctx),                          \
 		SPI_CONTEXT_CS_GPIOS_INITIALIZE(DT_DRV_INST(inst), spi_ctx)};                      \
-	DEVICE_DT_INST_DEFINE(inst, spi_pico_pio_init, NULL, &spi_pico_pio_data_##inst,            \
+	SPI_DEVICE_DT_INST_DEFINE(inst, spi_pico_pio_init, NULL, &spi_pico_pio_data_##inst,        \
 			      &spi_pico_pio_config_##inst, POST_KERNEL, CONFIG_SPI_INIT_PRIORITY,  \
 			      &spi_pico_pio_api);                                                  \
 	BUILD_ASSERT(DT_INST_NODE_HAS_PROP(inst, clk_gpios), "Missing clock GPIO");                \

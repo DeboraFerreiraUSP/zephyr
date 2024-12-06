@@ -214,7 +214,7 @@
 	};
 
 	lpi2c1: i2c@4340000 {
-		compatible = "nxp,imx-lpi2c";
+		compatible = "nxp,lpi2c";
 		clock-frequency = <I2C_BITRATE_STANDARD>;
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -225,7 +225,7 @@
 	};
 
 	lpi2c2: i2c@4350000 {
-		compatible = "nxp,imx-lpi2c";
+		compatible = "nxp,lpi2c";
 		clock-frequency = <I2C_BITRATE_STANDARD>;
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -236,7 +236,7 @@
 	};
 
 	lpi2c3: i2c@2530000 {
-		compatible = "nxp,imx-lpi2c";
+		compatible = "nxp,lpi2c";
 		clock-frequency = <I2C_BITRATE_STANDARD>;
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -247,7 +247,7 @@
 	};
 
 	lpi2c4: i2c@2540000 {
-		compatible = "nxp,imx-lpi2c";
+		compatible = "nxp,lpi2c";
 		clock-frequency = <I2C_BITRATE_STANDARD>;
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -258,7 +258,7 @@
 	};
 
 	lpi2c5: i2c@2d30000 {
-		compatible = "nxp,imx-lpi2c";
+		compatible = "nxp,lpi2c";
 		clock-frequency = <I2C_BITRATE_STANDARD>;
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -269,7 +269,7 @@
 	};
 
 	lpi2c6: i2c@2d40000 {
-		compatible = "nxp,imx-lpi2c";
+		compatible = "nxp,lpi2c";
 		clock-frequency = <I2C_BITRATE_STANDARD>;
 		#address-cells = <1>;
 		#size-cells = <0>;
@@ -847,6 +847,60 @@
 			nxp,prescaler = <128>;
 			status = "disabled";
 		};
+	};
+
+	tpm1: pwm@4310000 {
+		compatible = "nxp,kinetis-tpm";
+		reg = <0x4310000 0x88>;
+		interrupts = <36 0>;
+		clocks = <&ccm IMX_CCM_TPM1_CLK 0x3b 0>;
+		status = "disabled";
+		#pwm-cells = <3>;
+	};
+
+	tpm2: pwm@4320000 {
+		compatible = "nxp,kinetis-tpm";
+		reg = <0x4320000 0x88>;
+		interrupts = <37 0>;
+		clocks = <&ccm IMX_CCM_TPM2_CLK 0x3c 0>;
+		status = "disabled";
+		#pwm-cells = <3>;
+	};
+
+	tpm3: pwm@24E0000 {
+		compatible = "nxp,kinetis-tpm";
+		reg = <0x24E0000 0x88>;
+		interrupts = <75 0>;
+		clocks = <&ccm IMX_CCM_TPM3_CLK 0x3d 0>;
+		status = "disabled";
+		#pwm-cells = <3>;
+	};
+
+	tpm4: pwm@24F0000 {
+		compatible = "nxp,kinetis-tpm";
+		reg = <0x24F0000 0x88>;
+		interrupts = <76 0>;
+		clocks = <&ccm IMX_CCM_TPM4_CLK 0x3e 0>;
+		status = "disabled";
+		#pwm-cells = <3>;
+	};
+
+	tpm5: pwm@2500000 {
+		compatible = "nxp,kinetis-tpm";
+		reg = <0x2500000 0x88>;
+		interrupts = <77 0>;
+		clocks = <&ccm IMX_CCM_TPM5_CLK 0x3f 0>;
+		status = "disabled";
+		#pwm-cells = <3>;
+	};
+
+	tpm6: pwm@42510000 {
+		compatible = "nxp,kinetis-tpm";
+		reg = <0x42510000 0x88>;
+		interrupts = <78 0>;
+		clocks = <&ccm IMX_CCM_TPM6_CLK 0x40 0>;
+		status = "disabled";
+		#pwm-cells = <3>;
 	};
 };
 

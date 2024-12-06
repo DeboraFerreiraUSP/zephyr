@@ -189,7 +189,7 @@ manifest:
       groups:
         - hal
     - name: hal_nordic
-      revision: 5fbccc3fa8341d0cd5a128bc94f23ee03b763239
+      revision: e0e48c4ec75595767a286389e2fcda72b21363b0
       path: modules/hal/nordic
       groups:
         - hal
@@ -199,7 +199,7 @@ manifest:
       groups:
         - hal
     - name: hal_nxp
-      revision: c42d70dba969de09c0e43d3b26a3ffcb015f6f33
+      revision: 0ea9c65e8e14fe01c055e571ad2e6fe5337dc58d
       path: modules/hal/nxp
       groups:
         - hal
@@ -215,7 +215,7 @@ manifest:
         - hal
     - name: hal_renesas
       path: modules/hal/renesas
-      revision: 10326518701e25bf336a2eaeb8b5820110e4e6a3
+      revision: f77a8501c2adeec8eb98f51ee5c5c5aa095575a1
       groups:
         - hal
     - name: hal_rpi_pico
@@ -265,7 +265,7 @@ manifest:
         - hal
     - name: hostap
       path: modules/lib/hostap
-      revision: 14f350c2ad022529720cbf04432a825c28b469ec
+      revision: 4e4f601dae390263a91744db174fda4640d652cf
     - name: liblc3
       revision: 1a5938ebaca4f13fe79ce074f5dee079783aa29f
       path: modules/lib/liblc3
@@ -291,7 +291,7 @@ manifest:
       groups:
         - crypto
     - name: mcuboot
-      revision: eb942067989569f9cf319b087d0bb16b16effd86
+      revision: 5d6471bac184c8accaeeb0efcfad8dd35225a28d
       path: bootloader/mcuboot
       groups:
         - bootloader
@@ -309,7 +309,7 @@ manifest:
       revision: fbc6e614686b69dfa56f9694350b9488cf83d3f7
       path: modules/bsim_hw_models/nrf_hw_models
     - name: nrf_wifi
-      revision: f9e2abdb70761003912b1b929a37b536f68a91da
+      revision: 71261e2b719b98500b7741c3398a74a5fb631596
       path: modules/lib/nrf_wifi
     - name: open-amp
       revision: b735edbc739ad59156eb55bb8ce2583d74537719
@@ -341,7 +341,7 @@ manifest:
       groups:
         - tee
     - name: trusted-firmware-m
-      revision: bceac6cdfccb41ef4e289b9dca17daad48cda270
+      revision: fa020a8b001843bb5a115bc4692eaf6787e3d1de
       path: modules/tee/tf-m/trusted-firmware-m
       groups:
         - tee
